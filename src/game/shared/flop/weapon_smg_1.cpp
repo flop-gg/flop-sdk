@@ -20,18 +20,18 @@
 #include "weapon_flopbase_machinegun.h"
 
 #ifdef CLIENT_DLL
-#define CWeaponAR_1 C_WeaponAR_1
+#define CWeaponSMG_1 C_WeaponSMG_1
 #endif
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
-class CWeaponAR_1 : public CFlopMachineGun
+class CWeaponSMG_1 : public CFlopMachineGun
 {
 public:
-	DECLARE_CLASS( CWeaponAR_1, CFlopMachineGun );
+	DECLARE_CLASS( CWeaponSMG_1, CFlopMachineGun );
 
-	CWeaponAR_1();
+	CWeaponSMG_1();
 
 	DECLARE_NETWORKCLASS(); 
 	DECLARE_PREDICTABLE();
@@ -47,7 +47,7 @@ public:
 	virtual void Equip( CBaseCombatCharacter *pOwner );
 	bool	Reload( void );
 
-	float	GetFireRate( void ) { return 0.1f; }
+	float	GetFireRate( void ) { return 0.075f; }
 	Activity	GetPrimaryAttackActivity( void );
 
 	virtual bool GetBurstEnabled() { return true; }
@@ -70,38 +70,38 @@ protected:
 	float	m_flNextGrenadeCheck;
 	
 private:
-	CWeaponAR_1( const CWeaponAR_1 & );
+	CWeaponSMG_1( const CWeaponSMG_1 & );
 };
 
-IMPLEMENT_NETWORKCLASS_ALIASED( WeaponAR_1, DT_WeaponAR_1 )
+IMPLEMENT_NETWORKCLASS_ALIASED( WeaponSMG_1, DT_WeaponSMG_1 )
 
-BEGIN_NETWORK_TABLE( CWeaponAR_1, DT_WeaponAR_1 )
+BEGIN_NETWORK_TABLE( CWeaponSMG_1, DT_WeaponSMG_1 )
 END_NETWORK_TABLE()
 
-BEGIN_PREDICTION_DATA( CWeaponAR_1 )
+BEGIN_PREDICTION_DATA( CWeaponSMG_1 )
 END_PREDICTION_DATA()
 
-LINK_ENTITY_TO_CLASS( weapon_ar_1, CWeaponAR_1 );
-PRECACHE_WEAPON_REGISTER(weapon_ar_1);
+LINK_ENTITY_TO_CLASS( weapon_smg_1, CWeaponSMG_1 );
+PRECACHE_WEAPON_REGISTER(weapon_smg_1);
 
 #ifndef CLIENT_DLL
-acttable_t	CWeaponAR_1::m_acttable[] = 
+acttable_t	CWeaponSMG_1::m_acttable[] = 
 {
-	{ ACT_HL2MP_IDLE,					ACT_HL2MP_IDLE_AR2,						false },
-	{ ACT_HL2MP_RUN,					ACT_HL2MP_RUN_AR2,						false },
-	{ ACT_HL2MP_IDLE_CROUCH,			ACT_HL2MP_IDLE_CROUCH_AR2,				false },
-	{ ACT_HL2MP_WALK_CROUCH,			ACT_HL2MP_WALK_CROUCH_AR2,				false },
-	{ ACT_HL2MP_GESTURE_RANGE_ATTACK,	ACT_HL2MP_GESTURE_RANGE_ATTACK_AR2,		false },
-	{ ACT_HL2MP_GESTURE_RELOAD,			ACT_HL2MP_GESTURE_RELOAD_AR2,			false },
-	{ ACT_HL2MP_JUMP,					ACT_HL2MP_JUMP_AR2,						false },
-	{ ACT_RANGE_ATTACK1,				ACT_RANGE_ATTACK_AR2,					false },
+	{ ACT_HL2MP_IDLE,					ACT_HL2MP_IDLE_SMG1,						false },
+	{ ACT_HL2MP_RUN,					ACT_HL2MP_RUN_SMG1,							false },
+	{ ACT_HL2MP_IDLE_CROUCH,			ACT_HL2MP_IDLE_CROUCH_SMG1,					false },
+	{ ACT_HL2MP_WALK_CROUCH,			ACT_HL2MP_WALK_CROUCH_SMG1,					false },
+	{ ACT_HL2MP_GESTURE_RANGE_ATTACK,	ACT_HL2MP_GESTURE_RANGE_ATTACK_SMG1,		false },
+	{ ACT_HL2MP_GESTURE_RELOAD,			ACT_HL2MP_GESTURE_RELOAD_SMG1,				false },
+	{ ACT_HL2MP_JUMP,					ACT_HL2MP_JUMP_SMG1,						false },
+	{ ACT_RANGE_ATTACK1,				ACT_RANGE_ATTACK_SMG1,						false },
 };
 
-IMPLEMENT_ACTTABLE(CWeaponAR_1);
+IMPLEMENT_ACTTABLE(CWeaponSMG_1);
 #endif
 
 //=========================================================
-CWeaponAR_1::CWeaponAR_1( )
+CWeaponSMG_1::CWeaponSMG_1( )
 {
 	m_fMinRange1		= 0;// No minimum range. 
 	m_fMaxRange1		= 1400;
@@ -110,7 +110,7 @@ CWeaponAR_1::CWeaponAR_1( )
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-void CWeaponAR_1::Precache( void )
+void CWeaponSMG_1::Precache( void )
 {
 	BaseClass::Precache();
 }
@@ -118,7 +118,7 @@ void CWeaponAR_1::Precache( void )
 //-----------------------------------------------------------------------------
 // Purpose: Give this weapon longer range when wielded by an ally NPC.
 //-----------------------------------------------------------------------------
-void CWeaponAR_1::Equip( CBaseCombatCharacter *pOwner )
+void CWeaponSMG_1::Equip( CBaseCombatCharacter *pOwner )
 {
 	m_fMaxRange1 = 1400;
 
@@ -129,7 +129,7 @@ void CWeaponAR_1::Equip( CBaseCombatCharacter *pOwner )
 // Purpose: 
 // Output : Activity
 //-----------------------------------------------------------------------------
-Activity CWeaponAR_1::GetPrimaryAttackActivity( void )
+Activity CWeaponSMG_1::GetPrimaryAttackActivity( void )
 {
 	if ( m_nShotsFired < 2 )
 		return ACT_VM_PRIMARYATTACK;
@@ -145,7 +145,7 @@ Activity CWeaponAR_1::GetPrimaryAttackActivity( void )
 
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
-bool CWeaponAR_1::Reload( void )
+bool CWeaponSMG_1::Reload( void )
 {
 	bool fRet;
 	float fCacheTime = m_flNextSecondaryAttack;
@@ -167,11 +167,11 @@ bool CWeaponAR_1::Reload( void )
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-void CWeaponAR_1::AddViewKick( void )
+void CWeaponSMG_1::AddViewKick( void )
 {
-	#define MAX_VERTICAL_KICK   5.75f	// What is the max recoil angle?
+	#define MAX_VERTICAL_KICK   2.85f	// What is the max recoil angle?
 	#define SLIDE_LIMIT         14		// How many shots does it take for the recoil to reach max?
-	#define HORIZONTAL_PREC		0.8f	// How much horizontal recoil
+	#define HORIZONTAL_PREC		0.6f	// How much horizontal recoil
 	
 	//Get the view kick
 	CBasePlayer *pPlayer = ToBasePlayer( GetOwner() );
@@ -185,13 +185,13 @@ void CWeaponAR_1::AddViewKick( void )
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-void CWeaponAR_1::SecondaryAttack( void )
+void CWeaponSMG_1::SecondaryAttack( void )
 {
 
 }
 
 //-----------------------------------------------------------------------------
-const WeaponProficiencyInfo_t *CWeaponAR_1::GetProficiencyValues()
+const WeaponProficiencyInfo_t *CWeaponSMG_1::GetProficiencyValues()
 {
 	static WeaponProficiencyInfo_t proficiencyTable[] =
 	{

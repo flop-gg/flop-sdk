@@ -42,9 +42,6 @@ public:
 
 	int				WeaponSoundRealtime(WeaponSound_t shoot_type);
 
-	bool			GetBurstEnabled() { return false; }
-	int				GetBurstRate() { return 3; }
-
 	// utility function
 	static void DoMachineGunKick( CBasePlayer *pPlayer, float maxVerticleKickAngle, int shotsFired, int shotLimit, float horizontalPrecision );
 
@@ -56,6 +53,9 @@ protected:
 	int	m_nShotsFired;	// Number of consecutive shots fired
 
 	float	m_flNextSoundTime;	// real-time clock of when to make next sound
+
+	CNetworkVar(int, m_iBurst);
+	CNetworkVar(int, m_iBurstVal);
 };
 
 #endif // BASEFLCOMBATWEAPON_H
