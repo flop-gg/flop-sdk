@@ -517,3 +517,6 @@ ServerConfig.vdf
 stats.txt
 voice_ban.dt
 steam_appid.txt
+game/flop/materials/vgui/logos/ui/spray_canned.vmt
+*.lst
+*.ain

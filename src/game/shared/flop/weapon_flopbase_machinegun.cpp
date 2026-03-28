@@ -12,18 +12,18 @@
 	#include "hl2mp_player.h"
 #endif
 
-#include "weapon_hl2mpbase_machinegun.h"
+#include "weapon_flopbase_machinegun.h"
 #include "in_buttons.h"
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
-IMPLEMENT_NETWORKCLASS_ALIASED( HL2MPMachineGun, DT_HL2MPMachineGun )
+IMPLEMENT_NETWORKCLASS_ALIASED( FlopMachineGun, DT_FlopMachineGun )
 
-BEGIN_NETWORK_TABLE( CHL2MPMachineGun, DT_HL2MPMachineGun )
+BEGIN_NETWORK_TABLE( CFlopMachineGun, DT_FlopMachineGun )
 END_NETWORK_TABLE()
 
-BEGIN_PREDICTION_DATA( CHL2MPMachineGun )
+BEGIN_PREDICTION_DATA( CFlopMachineGun )
 #ifdef CLIENT_DLL
 	DEFINE_PRED_FIELD( m_nShotsFired, FIELD_INTEGER, 0 ),
 #endif
@@ -32,7 +32,7 @@ END_PREDICTION_DATA()
 //=========================================================
 //	>> CHLSelectFireMachineGun
 //=========================================================
-BEGIN_DATADESC( CHL2MPMachineGun )
+BEGIN_DATADESC( CFlopMachineGun )
 
 	DEFINE_FIELD( m_nShotsFired,	FIELD_INTEGER ),
 	DEFINE_FIELD( m_flNextSoundTime, FIELD_TIME ),
@@ -43,11 +43,11 @@ END_DATADESC()
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-CHL2MPMachineGun::CHL2MPMachineGun( void )
+CFlopMachineGun::CFlopMachineGun( void )
 {
 }
 
-const Vector &CHL2MPMachineGun::GetBulletSpread( void )
+const Vector &CFlopMachineGun::GetBulletSpread( void )
 {
 	static Vector cone = VECTOR_CONE_3DEGREES;
 	return cone;
@@ -58,7 +58,7 @@ const Vector &CHL2MPMachineGun::GetBulletSpread( void )
 //
 //
 //-----------------------------------------------------------------------------
-void CHL2MPMachineGun::PrimaryAttack( void )
+void CFlopMachineGun::PrimaryAttack( void )
 {
 	// Only the player fires this way so we can cast
 	CBasePlayer *pPlayer = ToBasePlayer( GetOwner() );
@@ -89,8 +89,14 @@ void CHL2MPMachineGun::PrimaryAttack( void )
 	// Make sure we don't fire more than the amount in the clip, if this weapon uses clips
 	if ( UsesClipsForAmmo1() )
 	{
+		if (GetBurstEnabled()) {
+			if (iBulletsToFire > GetBurstRate())
+				iBulletsToFire = GetBurstRate();
+		}
+
 		if ( iBulletsToFire > m_iClip1 )
 			iBulletsToFire = m_iClip1;
+
 		m_iClip1 -= iBulletsToFire;
 	}
 
@@ -124,7 +130,7 @@ void CHL2MPMachineGun::PrimaryAttack( void )
 // Purpose: 
 // Input  : &info - 
 //-----------------------------------------------------------------------------
-void CHL2MPMachineGun::FireBullets( const FireBulletsInfo_t &info )
+void CFlopMachineGun::FireBullets( const FireBulletsInfo_t &info )
 {
 	if(CBasePlayer *pPlayer = ToBasePlayer ( GetOwner() ) )
 	{
@@ -135,25 +141,22 @@ void CHL2MPMachineGun::FireBullets( const FireBulletsInfo_t &info )
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-void CHL2MPMachineGun::DoMachineGunKick( CBasePlayer *pPlayer, float dampEasy, float maxVerticleKickAngle, float fireDurationTime, float slideLimitTime )
+void CFlopMachineGun::DoMachineGunKick( CBasePlayer* pPlayer, float maxVerticleKickAngle, int shotsFired, int shotLimit, float horizontalPrecision )
 {
-	#define	KICK_MIN_X			0.2f	//Degrees
-	#define	KICK_MIN_Y			0.2f	//Degrees
-	#define	KICK_MIN_Z			0.1f	//Degrees
+	#define KICK_MIN_X  0.3f
+	#define KICK_MIN_Z  0.1f
 
 	QAngle vecScratch;
 	int iSeed = CBaseEntity::GetPredictionRandomSeed() & 255;
 	
-	//Find how far into our accuracy degradation we are
-	float duration	= ( fireDurationTime > slideLimitTime ) ? slideLimitTime : fireDurationTime;
-	float kickPerc = duration / slideLimitTime;
+	float kickPerc = (float)MIN(shotsFired, shotLimit) / (float)shotLimit;
+
+	RandomSeed(iSeed);
 
 	//Apply this to the view angles as well
 	vecScratch.x = -( KICK_MIN_X + ( maxVerticleKickAngle * kickPerc ) );
-	vecScratch.y = -( KICK_MIN_Y + ( maxVerticleKickAngle * kickPerc ) ) / 3;
+	vecScratch.y = RandomFloat( -horizontalPrecision, horizontalPrecision );
 	vecScratch.z = KICK_MIN_Z + ( maxVerticleKickAngle * kickPerc ) / 8;
-
-	RandomSeed( iSeed );
 
 	//Wibble left and right
 	if ( RandomInt( -1, 1 ) >= 0 )
@@ -176,7 +179,7 @@ void CHL2MPMachineGun::DoMachineGunKick( CBasePlayer *pPlayer, float dampEasy, f
 //-----------------------------------------------------------------------------
 // Purpose: Reset our shots fired
 //-----------------------------------------------------------------------------
-bool CHL2MPMachineGun::Deploy( void )
+bool CFlopMachineGun::Deploy( void )
 {
 	m_nShotsFired = 0;
 
@@ -189,7 +192,7 @@ bool CHL2MPMachineGun::Deploy( void )
 // Purpose: Make enough sound events to fill the estimated think interval
 // returns: number of shots needed
 //-----------------------------------------------------------------------------
-int CHL2MPMachineGun::WeaponSoundRealtime( WeaponSound_t shoot_type )
+int CFlopMachineGun::WeaponSoundRealtime( WeaponSound_t shoot_type )
 {
 	int numBullets = 0;
 
@@ -217,13 +220,10 @@ int CHL2MPMachineGun::WeaponSoundRealtime( WeaponSound_t shoot_type )
 	return numBullets;
 }
 
-
-
-
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-void CHL2MPMachineGun::ItemPostFrame( void )
+void CFlopMachineGun::ItemPostFrame( void )
 {
 	CBasePlayer *pOwner = ToBasePlayer( GetOwner() );
 	
