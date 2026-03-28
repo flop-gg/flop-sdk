@@ -21,6 +21,13 @@
 IMPLEMENT_NETWORKCLASS_ALIASED( FlopMachineGun, DT_FlopMachineGun )
 
 BEGIN_NETWORK_TABLE( CFlopMachineGun, DT_FlopMachineGun )
+	#ifdef CLIENT_DLL
+		RecvPropInt(RECVINFO(m_iBurst)),
+		RecvPropInt(RECVINFO(m_iBurstVal)),
+	#else
+		SendPropInt(SENDINFO(m_iBurst)),
+		SendPropInt(SENDINFO(m_iBurstVal)),
+	#endif
 END_NETWORK_TABLE()
 
 BEGIN_PREDICTION_DATA( CFlopMachineGun )
@@ -45,6 +52,8 @@ END_DATADESC()
 //-----------------------------------------------------------------------------
 CFlopMachineGun::CFlopMachineGun( void )
 {
+	m_iBurstVal = 500;
+	m_iBurst = m_iBurstVal;
 }
 
 const Vector &CFlopMachineGun::GetBulletSpread( void )
@@ -60,70 +69,69 @@ const Vector &CFlopMachineGun::GetBulletSpread( void )
 //-----------------------------------------------------------------------------
 void CFlopMachineGun::PrimaryAttack( void )
 {
-	// Only the player fires this way so we can cast
-	CBasePlayer *pPlayer = ToBasePlayer( GetOwner() );
-	if (!pPlayer)
-		return;
-	
-	// Abort here to handle burst and auto fire modes
-	if ( (UsesClipsForAmmo1() && m_iClip1 == 0) || ( !UsesClipsForAmmo1() && !pPlayer->GetAmmoCount(m_iPrimaryAmmoType) ) )
-		return;
+	if (m_iBurst > 0) {
+		// Only the player fires this way so we can cast
+		CBasePlayer* pPlayer = ToBasePlayer(GetOwner());
+		if (!pPlayer)
+			return;
 
-	m_nShotsFired++;
+		// Abort here to handle burst and auto fire modes
+		if ((UsesClipsForAmmo1() && m_iClip1 == 0) || (!UsesClipsForAmmo1() && !pPlayer->GetAmmoCount(m_iPrimaryAmmoType)))
+			return;
 
-	pPlayer->DoMuzzleFlash();
+		m_nShotsFired++;
 
-	// To make the firing framerate independent, we may have to fire more than one bullet here on low-framerate systems, 
-	// especially if the weapon we're firing has a really fast rate of fire.
-	int iBulletsToFire = 0;
-	float fireRate = GetFireRate();
+		pPlayer->DoMuzzleFlash();
 
-	while ( m_flNextPrimaryAttack <= gpGlobals->curtime )
-	{
-		// MUST call sound before removing a round from the clip of a CHLMachineGun
-		WeaponSound(SINGLE, m_flNextPrimaryAttack);
-		m_flNextPrimaryAttack = m_flNextPrimaryAttack + fireRate;
-		iBulletsToFire++;
-	}
+		// To make the firing framerate independent, we may have to fire more than one bullet here on low-framerate systems, 
+		// especially if the weapon we're firing has a really fast rate of fire.
+		int iBulletsToFire = 0;
+		float fireRate = GetFireRate();
 
-	// Make sure we don't fire more than the amount in the clip, if this weapon uses clips
-	if ( UsesClipsForAmmo1() )
-	{
-		if (GetBurstEnabled()) {
-			if (iBulletsToFire > GetBurstRate())
-				iBulletsToFire = GetBurstRate();
+		while (m_flNextPrimaryAttack <= gpGlobals->curtime)
+		{
+			// MUST call sound before removing a round from the clip of a CHLMachineGun
+			WeaponSound(SINGLE, m_flNextPrimaryAttack);
+			m_flNextPrimaryAttack = m_flNextPrimaryAttack + fireRate;
+			iBulletsToFire++;
 		}
 
-		if ( iBulletsToFire > m_iClip1 )
-			iBulletsToFire = m_iClip1;
+		// Make sure we don't fire more than the amount in the clip, if this weapon uses clips
+		if (UsesClipsForAmmo1())
+		{
+			if (iBulletsToFire > m_iClip1)
+				iBulletsToFire = m_iClip1;
 
-		m_iClip1 -= iBulletsToFire;
-	}
+			m_iClip1 -= iBulletsToFire;
+		}
 
-	CHL2MP_Player *pHL2MPPlayer = ToHL2MPPlayer( pPlayer );
+		CHL2MP_Player* pHL2MPPlayer = ToHL2MPPlayer(pPlayer);
 
 		// Fire the bullets
-	FireBulletsInfo_t info;
-	info.m_iShots = iBulletsToFire;
-	info.m_vecSrc = pHL2MPPlayer->Weapon_ShootPosition( );
-	info.m_vecDirShooting = pPlayer->GetAutoaimVector( AUTOAIM_5DEGREES );
-	info.m_vecSpread = pHL2MPPlayer->GetAttackSpread( this );
-	info.m_flDistance = MAX_TRACE_LENGTH;
-	info.m_iAmmoType = m_iPrimaryAmmoType;
-	info.m_iTracerFreq = 2;
-	FireBullets( info );
+		FireBulletsInfo_t info;
+		info.m_iShots = iBulletsToFire;
+		info.m_vecSrc = pHL2MPPlayer->Weapon_ShootPosition();
+		info.m_vecDirShooting = pPlayer->GetAutoaimVector(AUTOAIM_5DEGREES);
+		info.m_vecSpread = pHL2MPPlayer->GetAttackSpread(this);
+		info.m_flDistance = MAX_TRACE_LENGTH;
+		info.m_iAmmoType = m_iPrimaryAmmoType;
+		info.m_iTracerFreq = 2;
+		FireBullets(info);
 
-	//Factor in the view kick
-	AddViewKick();
-	
-	if (!m_iClip1 && pPlayer->GetAmmoCount(m_iPrimaryAmmoType) <= 0)
-	{
-		// HEV suit - indicate out of ammo condition
-		pPlayer->SetSuitUpdate("!HEV_AMO0", FALSE, 0); 
+		//Factor in the view kick
+		AddViewKick();
+
+		if (!m_iClip1 && pPlayer->GetAmmoCount(m_iPrimaryAmmoType) <= 0)
+		{
+			// HEV suit - indicate out of ammo condition
+			pPlayer->SetSuitUpdate("!HEV_AMO0", FALSE, 0);
+		}
+
+		m_iBurst--;
+
+		SendWeaponAnim(GetPrimaryAttackActivity());
+		pPlayer->SetAnimation(PLAYER_ATTACK1);
 	}
-
-	SendWeaponAnim( GetPrimaryAttackActivity() );
-	pPlayer->SetAnimation( PLAYER_ATTACK1 );
 }
 
 //-----------------------------------------------------------------------------
@@ -182,6 +190,7 @@ void CFlopMachineGun::DoMachineGunKick( CBasePlayer* pPlayer, float maxVerticleK
 bool CFlopMachineGun::Deploy( void )
 {
 	m_nShotsFired = 0;
+	m_iBurst = m_iBurstVal;
 
 	return BaseClass::Deploy();
 }
@@ -234,6 +243,7 @@ void CFlopMachineGun::ItemPostFrame( void )
 	if ( ( pOwner->m_nButtons & IN_ATTACK ) == false )
 	{
 		m_nShotsFired = 0;
+		m_iBurst = m_iBurstVal;
 	}
 
 	BaseClass::ItemPostFrame();

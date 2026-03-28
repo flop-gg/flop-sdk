@@ -132,7 +132,16 @@ $Project "Server (Flop)"
 		{
 			$Folder	"Weapons"
 			{
+				$File	"$SRCDIR\game\shared\flop\weapon_flopbase_machinegun.cpp"
+				$File	"$SRCDIR\game\shared\flop\weapon_flopbase_machinegun.h"
+				
 				$File	"$SRCDIR\game\shared\flop\weapon_ar_1.cpp"
+				$File	"$SRCDIR\game\shared\flop\weapon_ar_2.cpp"
+				$File	"$SRCDIR\game\shared\flop\weapon_ar_3.cpp"
+				
+				$File	"$SRCDIR\game\shared\flop\weapon_smg_1.cpp"
+				$File	"$SRCDIR\game\shared\flop\weapon_smg_2.cpp"
+				$File	"$SRCDIR\game\shared\flop\weapon_smg_3.cpp"
 			}
 		}
 
