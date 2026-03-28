@@ -148,8 +148,10 @@ void CHL2MPMachineGun::DoMachineGunKick( CBasePlayer *pPlayer, float dampEasy, f
 	float duration	= ( fireDurationTime > slideLimitTime ) ? slideLimitTime : fireDurationTime;
 	float kickPerc = duration / slideLimitTime;
 
+#ifndef FLOP_DLL
 	// do this to get a hard discontinuity, clear out anything under 10 degrees punch
-	pPlayer->ViewPunchReset( 10 );
+	pPlayer->ViewPunchReset(10);
+#endif // !FLOP_DLL
 
 	//Apply this to the view angles as well
 	vecScratch.x = -( KICK_MIN_X + ( maxVerticleKickAngle * kickPerc ) );

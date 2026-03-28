@@ -128,6 +128,14 @@ $Project "Server (Flop)"
 			}
 		}
 
+		$Folder	"Flop"
+		{
+			$Folder	"Weapons"
+			{
+				$File	"$SRCDIR\game\shared\flop\weapon_ar_1.cpp"
+			}
+		}
+
 		$Folder	"HL2 DLL"
 		{
 			$File	"hl2\ai_allymanager.cpp"

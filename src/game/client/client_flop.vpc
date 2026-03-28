@@ -41,6 +41,14 @@ $Project "Client (Flop)"
 			$File	"NextBot\C_NextBot.h"
 		}
 
+		$Folder	"Flop"
+		{
+			$Folder	"Weapons"
+			{
+				$File	"$SRCDIR\game\shared\flop\weapon_ar_1.cpp"
+			}
+		}
+
 		$Folder	"HL2 DLL"
 		{
  			$File	"episodic\c_vort_charge_token.cpp"
