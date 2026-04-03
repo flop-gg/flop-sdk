@@ -45,6 +45,9 @@ public:
 	// utility function
 	static void DoMachineGunKick( CBasePlayer *pPlayer, float maxVerticleKickAngle, int shotsFired, int shotLimit, float horizontalPrecision );
 
+	virtual bool HasSecondaryAttack( void ) { return false; }
+	virtual void SecondaryAttack( void ) { return; }
+
 private:
 	CFlopMachineGun( const CFlopMachineGun & );
 

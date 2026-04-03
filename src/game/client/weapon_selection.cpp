@@ -21,7 +21,11 @@
 #define HISTORY_DRAW_TIME	"5"
 
 ConVar hud_drawhistory_time( "hud_drawhistory_time", HISTORY_DRAW_TIME, 0 );
-ConVar hud_fastswitch( "hud_fastswitch", "0", FCVAR_ARCHIVE | FCVAR_ARCHIVE_XBOX );
+#ifndef FLOP_DLL
+ConVar hud_fastswitch("hud_fastswitch", "0", FCVAR_ARCHIVE | FCVAR_ARCHIVE_XBOX);
+#else
+ConVar hud_fastswitch("hud_fastswitch", "1", FCVAR_ARCHIVE | FCVAR_ARCHIVE_XBOX);
+#endif // !FLOP_DLL
 
 //-----------------------------------------------------------------------------
 // Purpose: Weapon Selection commands
@@ -585,7 +589,9 @@ void CBaseHudWeaponSelection::SelectWeapon( void )
 		engine->ClientCmd( "cancelselect\n" );
 
 		// Play the "weapon selected" sound
-		player->EmitSound( "Player.WeaponSelected" );
+#ifndef FLOP_DLL
+		player->EmitSound("Player.WeaponSelected");
+#endif // !FLOP_DLL
 	}
 }
 
@@ -608,7 +614,9 @@ void CBaseHudWeaponSelection::CancelWeaponSelection( void )
 		m_hSelectedWeapon = NULL;
 
 		// Play the "close weapon selection" sound
-		player->EmitSound( "Player.WeaponSelectionClose" );
+#ifndef FLOP_DLL
+		player->EmitSound("Player.WeaponSelectionClose");
+#endif // !FLOP_DLL
 	}
 	else
 	{

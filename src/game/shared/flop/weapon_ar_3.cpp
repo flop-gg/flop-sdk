@@ -39,7 +39,6 @@ public:
 	
 	void	Precache( void );
 	void	AddViewKick( void );
-	void	SecondaryAttack( void );
 
 	int		GetMinBurst() { return 2; }
 	int		GetMaxBurst() { return 5; }
@@ -181,14 +180,6 @@ void CWeaponAR_3::AddViewKick( void )
 		return;
 
 	DoMachineGunKick( pPlayer, MAX_VERTICAL_KICK, m_nShotsFired, SLIDE_LIMIT, HORIZONTAL_PREC );
-}
-
-//-----------------------------------------------------------------------------
-// Purpose: 
-//-----------------------------------------------------------------------------
-void CWeaponAR_3::SecondaryAttack( void )
-{
-
 }
 
 //-----------------------------------------------------------------------------

@@ -55,6 +55,16 @@ $Project "Client (Flop)"
 				$File	"$SRCDIR\game\shared\flop\weapon_smg_1.cpp"
 				$File	"$SRCDIR\game\shared\flop\weapon_smg_2.cpp"
 				$File	"$SRCDIR\game\shared\flop\weapon_smg_3.cpp"
+				
+				$File	"$SRCDIR\game\shared\flop\weapon_pistol_1.cpp"
+				$File	"$SRCDIR\game\shared\flop\weapon_pistol_2.cpp"
+				$File	"$SRCDIR\game\shared\flop\weapon_pistol_3.cpp"
+				
+				$File	"$SRCDIR\game\shared\flop\weapon_shotgun_1.cpp"
+				$File	"$SRCDIR\game\shared\flop\weapon_shotgun_2.cpp"
+				
+				$File	"$SRCDIR\game\shared\flop\weapon_sniper_1.cpp"
+				$File	"$SRCDIR\game\shared\flop\weapon_sniper_2.cpp"
 			}
 		}
 
@@ -127,7 +137,6 @@ $Project "Client (Flop)"
 			$File	"hl2\hud_flashlight.cpp"
 			$File	"hl2\hud_health.cpp"
 			$File	"hl2\hud_poisondamageindicator.cpp"
-			$File	"hl2\hud_quickinfo.cpp"
 			$File	"hud_squadstatus.cpp"
 			$File	"hl2\hud_suitpower.cpp"
 			$File	"hl2\hud_suitpower.h"

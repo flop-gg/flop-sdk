@@ -24,7 +24,11 @@
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
-ConVar hud_showemptyweaponslots( "hud_showemptyweaponslots", "1", FCVAR_ARCHIVE, "Shows slots for missing weapons when recieving weapons out of order" );
+#ifndef FLOP_DLL
+ConVar hud_showemptyweaponslots("hud_showemptyweaponslots", "1", FCVAR_ARCHIVE, "Shows slots for missing weapons when recieving weapons out of order");
+#else
+ConVar hud_showemptyweaponslots("hud_showemptyweaponslots", "0", FCVAR_ARCHIVE, "Shows slots for missing weapons when recieving weapons out of order");
+#endif // !FLOP_DLL
 
 #define SELECTION_TIMEOUT_THRESHOLD		0.5f	// Seconds
 #define SELECTION_FADEOUT_TIME			0.75f
@@ -1197,7 +1201,9 @@ void CHudWeaponSelection::CycleToNextWeapon( void )
 		}
 
 		// Play the "cycle to next weapon" sound
-		pPlayer->EmitSound( "Player.WeaponSelectionMoveSlot" );
+#ifndef FLOP_DLL
+		pPlayer->EmitSound("Player.WeaponSelectionMoveSlot");
+#endif // !FLOP_DLL
 	}
 }
 
@@ -1250,7 +1256,10 @@ void CHudWeaponSelection::CycleToPrevWeapon( void )
 		}
 
 		// Play the "cycle to next weapon" sound
-		pPlayer->EmitSound( "Player.WeaponSelectionMoveSlot" );
+#ifndef FLOP_DLL
+		pPlayer->EmitSound("Player.WeaponSelectionMoveSlot");
+#endif // !FLOP_DLL
+
 	}
 }
 
@@ -1344,7 +1353,9 @@ void CHudWeaponSelection::FastWeaponSwitch( int iWeaponSlot )
 	else if ( pNextWeapon != pActiveWeapon )
 	{
 		// error sound
-		pPlayer->EmitSound( "Player.DenyWeaponSelection" );
+#ifndef FLOP_DLL
+		pPlayer->EmitSound("Player.DenyWeaponSelection");
+#endif // !FLOP_DLL
 	}
 
 	if ( HUDTYPE_CAROUSEL != hud_fastswitch.GetInt() )
@@ -1412,7 +1423,10 @@ void CHudWeaponSelection::PlusTypeFastWeaponSwitch( int iWeaponSlot )
 		else
 		{
 			// error sound
-			pPlayer->EmitSound( "Player.DenyWeaponSelection" );
+#ifndef FLOP_DLL
+			pPlayer->EmitSound("Player.DenyWeaponSelection");
+#endif // !FLOP_DLL
+
 			return;
 		}
 	}
@@ -1521,5 +1535,7 @@ void CHudWeaponSelection::SelectWeaponSlot( int iSlot )
 		break;
 	}
 
-	pPlayer->EmitSound( "Player.WeaponSelectionMoveSlot" );
+#ifndef FLOP_DLL
+	pPlayer->EmitSound("Player.WeaponSelectionMoveSlot");
+#endif // !FLOP_DLL
 }

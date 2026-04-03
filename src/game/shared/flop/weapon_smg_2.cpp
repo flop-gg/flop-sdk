@@ -39,7 +39,6 @@ public:
 	
 	void	Precache( void );
 	void	AddViewKick( void );
-	void	SecondaryAttack( void );
 
 	int		GetMinBurst() { return 2; }
 	int		GetMaxBurst() { return 5; }
@@ -54,7 +53,7 @@ public:
 
 	virtual const Vector& GetBulletSpread( void )
 	{
-		static const Vector cone = VECTOR_CONE_2DEGREES;
+		static const Vector cone = VECTOR_CONE_1DEGREES;
 		return cone;
 	}
 
@@ -180,14 +179,6 @@ void CWeaponSMG_2::AddViewKick( void )
 		return;
 
 	DoMachineGunKick(pPlayer, MAX_VERTICAL_KICK, m_nShotsFired, SLIDE_LIMIT, HORIZONTAL_PREC);
-}
-
-//-----------------------------------------------------------------------------
-// Purpose: 
-//-----------------------------------------------------------------------------
-void CWeaponSMG_2::SecondaryAttack( void )
-{
-
 }
 
 //-----------------------------------------------------------------------------
