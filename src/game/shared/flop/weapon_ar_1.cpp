@@ -39,7 +39,6 @@ public:
 	
 	void	Precache( void );
 	void	AddViewKick( void );
-	void	SecondaryAttack( void );
 
 	int		GetMinBurst() { return 2; }
 	int		GetMaxBurst() { return 5; }
@@ -169,9 +168,9 @@ bool CWeaponAR_1::Reload( void )
 //-----------------------------------------------------------------------------
 void CWeaponAR_1::AddViewKick( void )
 {
-	#define MAX_VERTICAL_KICK   5.75f	// What is the max recoil angle?
-	#define SLIDE_LIMIT         14		// How many shots does it take for the recoil to reach max?
-	#define HORIZONTAL_PREC		0.8f	// How much horizontal recoil
+	#define MAX_VERTICAL_KICK   12.65f	// What is the max recoil angle?
+	#define SLIDE_LIMIT         30		// How many shots does it take for the recoil to reach max?
+	#define HORIZONTAL_PREC		1.28f	// How much horizontal recoil
 	
 	//Get the view kick
 	CBasePlayer *pPlayer = ToBasePlayer( GetOwner() );
@@ -180,14 +179,6 @@ void CWeaponAR_1::AddViewKick( void )
 		return;
 
 	DoMachineGunKick( pPlayer, MAX_VERTICAL_KICK, m_nShotsFired, SLIDE_LIMIT, HORIZONTAL_PREC );
-}
-
-//-----------------------------------------------------------------------------
-// Purpose: 
-//-----------------------------------------------------------------------------
-void CWeaponAR_1::SecondaryAttack( void )
-{
-
 }
 
 //-----------------------------------------------------------------------------

@@ -20,18 +20,18 @@
 #include "weapon_flopbase_machinegun.h"
 
 #ifdef CLIENT_DLL
-#define CWeaponAR_2 C_WeaponAR_2
+#define CWeaponSniper_2 C_WeaponSniper_2
 #endif
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
-class CWeaponAR_2 : public CFlopMachineGun
+class CWeaponSniper_2 : public CFlopMachineGun
 {
 public:
-	DECLARE_CLASS( CWeaponAR_2, CFlopMachineGun );
+	DECLARE_CLASS( CWeaponSniper_2, CFlopMachineGun );
 
-	CWeaponAR_2();
+	CWeaponSniper_2();
 
 	DECLARE_NETWORKCLASS(); 
 	DECLARE_PREDICTABLE();
@@ -46,8 +46,10 @@ public:
 	virtual void Equip( CBaseCombatCharacter *pOwner );
 	bool	Reload( void );
 
-	float	GetFireRate( void ) { return 0.093f; }
+	float	GetFireRate( void ) { return 0.1f; }
 	Activity	GetPrimaryAttackActivity( void );
+
+	virtual void PrimaryAttack();
 
 	virtual bool GetBurstEnabled() { return true; }
 
@@ -69,22 +71,22 @@ protected:
 	float	m_flNextGrenadeCheck;
 	
 private:
-	CWeaponAR_2( const CWeaponAR_2 & );
+	CWeaponSniper_2( const CWeaponSniper_2 & );
 };
 
-IMPLEMENT_NETWORKCLASS_ALIASED( WeaponAR_2, DT_WeaponAR_2 )
+IMPLEMENT_NETWORKCLASS_ALIASED( WeaponSniper_2, DT_WeaponSniper_2 )
 
-BEGIN_NETWORK_TABLE( CWeaponAR_2, DT_WeaponAR_2 )
+BEGIN_NETWORK_TABLE( CWeaponSniper_2, DT_WeaponSniper_2 )
 END_NETWORK_TABLE()
 
-BEGIN_PREDICTION_DATA( CWeaponAR_2 )
+BEGIN_PREDICTION_DATA( CWeaponSniper_2 )
 END_PREDICTION_DATA()
 
-LINK_ENTITY_TO_CLASS( weapon_ar_2, CWeaponAR_2 );
-PRECACHE_WEAPON_REGISTER(weapon_ar_2);
+LINK_ENTITY_TO_CLASS( weapon_sniper_2, CWeaponSniper_2 );
+PRECACHE_WEAPON_REGISTER(weapon_sniper_2);
 
 #ifndef CLIENT_DLL
-acttable_t	CWeaponAR_2::m_acttable[] = 
+acttable_t	CWeaponSniper_2::m_acttable[] = 
 {
 	{ ACT_HL2MP_IDLE,					ACT_HL2MP_IDLE_AR2,						false },
 	{ ACT_HL2MP_RUN,					ACT_HL2MP_RUN_AR2,						false },
@@ -96,20 +98,21 @@ acttable_t	CWeaponAR_2::m_acttable[] =
 	{ ACT_RANGE_ATTACK1,				ACT_RANGE_ATTACK_AR2,					false },
 };
 
-IMPLEMENT_ACTTABLE(CWeaponAR_2);
+IMPLEMENT_ACTTABLE(CWeaponSniper_2);
 #endif
 
 //=========================================================
-CWeaponAR_2::CWeaponAR_2( )
+CWeaponSniper_2::CWeaponSniper_2( )
 {
 	m_fMinRange1		= 0;// No minimum range. 
 	m_fMaxRange1		= 1400;
+	m_iBurstVal = 1;
 }
 
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-void CWeaponAR_2::Precache( void )
+void CWeaponSniper_2::Precache( void )
 {
 	BaseClass::Precache();
 }
@@ -117,7 +120,7 @@ void CWeaponAR_2::Precache( void )
 //-----------------------------------------------------------------------------
 // Purpose: Give this weapon longer range when wielded by an ally NPC.
 //-----------------------------------------------------------------------------
-void CWeaponAR_2::Equip( CBaseCombatCharacter *pOwner )
+void CWeaponSniper_2::Equip( CBaseCombatCharacter *pOwner )
 {
 	m_fMaxRange1 = 1400;
 
@@ -126,9 +129,19 @@ void CWeaponAR_2::Equip( CBaseCombatCharacter *pOwner )
 
 //-----------------------------------------------------------------------------
 // Purpose: 
+//-----------------------------------------------------------------------------
+void CWeaponSniper_2::PrimaryAttack(void)
+{
+	BaseClass::PrimaryAttack();
+
+	m_flNextPrimaryAttack = gpGlobals->curtime + 0.67f;
+}
+
+//-----------------------------------------------------------------------------
+// Purpose: 
 // Output : Activity
 //-----------------------------------------------------------------------------
-Activity CWeaponAR_2::GetPrimaryAttackActivity( void )
+Activity CWeaponSniper_2::GetPrimaryAttackActivity( void )
 {
 	if ( m_nShotsFired < 2 )
 		return ACT_VM_PRIMARYATTACK;
@@ -144,7 +157,7 @@ Activity CWeaponAR_2::GetPrimaryAttackActivity( void )
 
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
-bool CWeaponAR_2::Reload( void )
+bool CWeaponSniper_2::Reload( void )
 {
 	bool fRet;
 	float fCacheTime = m_flNextSecondaryAttack;
@@ -166,11 +179,11 @@ bool CWeaponAR_2::Reload( void )
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-void CWeaponAR_2::AddViewKick( void )
+void CWeaponSniper_2::AddViewKick( void )
 {
-	#define MAX_VERTICAL_KICK   9.15f	// What is the max recoil angle?
-	#define SLIDE_LIMIT         30		// How many shots does it take for the recoil to reach max?
-	#define HORIZONTAL_PREC		0.4f	// How much horizontal recoil
+	#define MAX_VERTICAL_KICK   8.75f	// What is the max recoil angle?
+	#define SLIDE_LIMIT         1		// How many shots does it take for the recoil to reach max?
+	#define HORIZONTAL_PREC		0.8f	// How much horizontal recoil
 	
 	//Get the view kick
 	CBasePlayer *pPlayer = ToBasePlayer( GetOwner() );
@@ -182,7 +195,7 @@ void CWeaponAR_2::AddViewKick( void )
 }
 
 //-----------------------------------------------------------------------------
-const WeaponProficiencyInfo_t *CWeaponAR_2::GetProficiencyValues()
+const WeaponProficiencyInfo_t *CWeaponSniper_2::GetProficiencyValues()
 {
 	static WeaponProficiencyInfo_t proficiencyTable[] =
 	{
