@@ -155,6 +155,7 @@ $Project "Server (Flop)"
 			}
 			
 			$File	"flop\hl2mp_player_override.cpp"
+			$File	"$SRCDIR\game\shared\flop\handviewmodel_shared.cpp"
 		}
 
 		$Folder	"HL2 DLL"
