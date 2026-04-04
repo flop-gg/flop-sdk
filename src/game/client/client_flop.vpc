@@ -66,6 +66,8 @@ $Project "Client (Flop)"
 				$File	"$SRCDIR\game\shared\flop\weapon_sniper_1.cpp"
 				$File	"$SRCDIR\game\shared\flop\weapon_sniper_2.cpp"
 			}
+			
+			$File	"$SRCDIR\game\shared\flop\handviewmodel_shared.cpp"
 		}
 
 		$Folder	"HL2 DLL"

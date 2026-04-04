@@ -332,6 +332,7 @@ void CHL2MP_Player::PickDefaultSpawnTeam( void )
 //-----------------------------------------------------------------------------
 // Purpose: Sets HL2 specific defaults.
 //-----------------------------------------------------------------------------
+#ifndef FLOP_DLL
 void CHL2MP_Player::Spawn(void)
 {
 	m_flNextModelChangeTime = 0.0f;
@@ -340,35 +341,35 @@ void CHL2MP_Player::Spawn(void)
 	PickDefaultSpawnTeam();
 
 	BaseClass::Spawn();
-	
-	if ( !IsObserver() )
+
+	if (!IsObserver())
 	{
 		pl.deadflag = false;
-		RemoveSolidFlags( FSOLID_NOT_SOLID );
+		RemoveSolidFlags(FSOLID_NOT_SOLID);
 
-		RemoveEffects( EF_NODRAW );
-		
+		RemoveEffects(EF_NODRAW);
+
 		GiveDefaultItems();
 	}
 
-	SetNumAnimOverlays( 3 );
+	SetNumAnimOverlays(3);
 	ResetAnimation();
 
 	m_nRenderFX = kRenderNormal;
 
 	m_Local.m_iHideHUD = 0;
-	
+
 	AddFlag(FL_ONGROUND); // set the player on the ground at the start of the round.
 
 	m_impactEnergyScale = HL2MPPLAYER_PHYSDAMAGE_SCALE;
 
-	if ( HL2MPRules()->IsIntermission() )
+	if (HL2MPRules()->IsIntermission())
 	{
-		AddFlag( FL_FROZEN );
+		AddFlag(FL_FROZEN);
 	}
 	else
 	{
-		RemoveFlag( FL_FROZEN );
+		RemoveFlag(FL_FROZEN);
 	}
 
 	m_iSpawnInterpCounter = (m_iSpawnInterpCounter + 1) % 8;
@@ -379,6 +380,7 @@ void CHL2MP_Player::Spawn(void)
 
 	m_bReady = false;
 }
+#endif // !FLOP_DLL
 
 bool CHL2MP_Player::ValidatePlayerModel( const char *pModel )
 {
