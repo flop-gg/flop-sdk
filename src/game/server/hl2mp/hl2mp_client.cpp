@@ -63,18 +63,20 @@ void FinishClientPutInServer( CHL2MP_Player *pPlayer )
 		ClientPrint( pPlayer, HUD_PRINTTALK, "You are on team %s1\n", pPlayer->GetTeam()->GetName() );
 	}
 
-	const ConVar *hostname = cvar->FindVar( "hostname" );
-	const char *title = (hostname) ? hostname->GetString() : "MESSAGE OF THE DAY";
+#ifndef FLOP_DLL
+	const ConVar* hostname = cvar->FindVar("hostname");
+	const char* title = (hostname) ? hostname->GetString() : "MESSAGE OF THE DAY";
 
-	KeyValues *data = new KeyValues("data");
-	data->SetString( "title", title );		// info panel title
-	data->SetString( "type", "1" );			// show userdata from stringtable entry
-	data->SetString( "msg",	"motd" );		// use this stringtable entry
-	data->SetBool( "unload", sv_motd_unload_on_dismissal.GetBool() );
+	KeyValues* data = new KeyValues("data");
+	data->SetString("title", title);		// info panel title
+	data->SetString("type", "1");			// show userdata from stringtable entry
+	data->SetString("msg", "motd");		// use this stringtable entry
+	data->SetBool("unload", sv_motd_unload_on_dismissal.GetBool());
 
-	pPlayer->ShowViewPortPanel( PANEL_INFO, true, data );
+	pPlayer->ShowViewPortPanel(PANEL_INFO, true, data);
 
 	data->deleteThis();
+#endif // !FLOP_DLL
 }
 
 /*
@@ -111,10 +113,14 @@ Returns the descriptive name of this .dll.  E.g., Half-Life, or Team Fortress 2
 */
 const char *GetGameDescription()
 {
-	if ( g_pGameRules ) // this function may be called before the world has spawned, and the game rules initialized
+#ifndef FLOP_DLL
+	if (g_pGameRules) // this function may be called before the world has spawned, and the game rules initialized
 		return g_pGameRules->GetGameDescription();
 	else
 		return "Half-Life 2 Deathmatch";
+#else
+	return "Flop";
+#endif // !FLOP_DLL
 }
 
 //-----------------------------------------------------------------------------
