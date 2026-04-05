@@ -21,6 +21,9 @@
 
 #include "OfflineMode.h"
 
+#include "cdll_int.h"
+extern IVEngineClient* engine;
+
 // memdbgon must be the last include file in a .cpp file
 #include "tier0/memdbgon.h"
 
@@ -1223,7 +1226,7 @@ void HTML::CHTMLFindBar::OnCommand( const char *pchCmd )
 	}
 	else
 		BaseClass::OnCommand( pchCmd );
-
+	RequestFocus();
 }
 
 
@@ -1736,10 +1739,49 @@ void HTML::BrowserLinkAtPositionResponse( HTML_LinkAtPosition_t *pCmd )
 //-----------------------------------------------------------------------------
 void HTML::BrowserJSAlert( HTML_JSAlert_t *pCmd )
 {
-	MessageBox *pDlg = new MessageBox( m_sCurrentURL, (const char *)pCmd->pchMessage, this );
-	pDlg->AddActionSignalTarget( this );
-	pDlg->SetCommand( new KeyValues( "DismissJSDialog", "result", false ) );
+	const char* msg_t = pCmd->pchMessage;
+	if (!strcmp(msg_t, "action_serverbrowser"))
+	{
+		engine->ClientCmd_Unrestricted("gamemenucommand OpenServerBrowser");
+		if (m_SteamAPIContext.SteamHTMLSurface())
+			m_SteamAPIContext.SteamHTMLSurface()->JSDialogResponse(m_unBrowserHandle, true);
+		RequestFocus();
+		return;
+	}
+	
+	if (!strcmp(msg_t, "action_servercreator"))
+	{
+		engine->ClientCmd_Unrestricted("gamemenucommand OpenCreateMultiplayerGameDialog");
+		if (m_SteamAPIContext.SteamHTMLSurface())
+			m_SteamAPIContext.SteamHTMLSurface()->JSDialogResponse(m_unBrowserHandle, true);
+		RequestFocus();
+		return;
+	}
+
+	if (!strcmp(msg_t, "action_settings"))
+	{
+		engine->ClientCmd_Unrestricted("gamemenucommand OpenOptionsDialog");
+		if (m_SteamAPIContext.SteamHTMLSurface())
+			m_SteamAPIContext.SteamHTMLSurface()->JSDialogResponse(m_unBrowserHandle, true);
+		RequestFocus();
+		return;
+	}
+
+	if (!strcmp(msg_t, "action_quit"))
+	{
+		engine->ClientCmd_Unrestricted("quit");
+		if (m_SteamAPIContext.SteamHTMLSurface())
+			m_SteamAPIContext.SteamHTMLSurface()->JSDialogResponse(m_unBrowserHandle, true);
+		RequestFocus();
+		return;
+	}
+
+	MessageBox* pDlg = new MessageBox(m_sCurrentURL, (const char*)pCmd->pchMessage, this);
+	pDlg->AddActionSignalTarget(this);
+	pDlg->SetCommand(new KeyValues("DismissJSDialog", "result", false));
 	pDlg->DoModal();
+
+	RequestFocus();
 }
 
 
@@ -1763,6 +1805,8 @@ void HTML::DismissJSDialog( int bResult )
 {
 	if (m_SteamAPIContext.SteamHTMLSurface())
 		m_SteamAPIContext.SteamHTMLSurface()->JSDialogResponse( m_unBrowserHandle, bResult );
+
+	RequestFocus();
 };
 
 
