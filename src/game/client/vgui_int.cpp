@@ -24,6 +24,11 @@
 #include "filesystem.h"
 #include "matsys_controls/matsyscontrols.h"
 
+#ifdef FLOP_DLL
+#include "flop/IOverrideInterface.h"
+#include "flop/OverrideUI_RootPanel.h"
+#endif // FLOP_DLL
+
 #ifdef SIXENSE
 #include "sixense/in_sixense.h"
 #endif
@@ -36,6 +41,7 @@ using namespace vgui;
 
 void MP3Player_Create( vgui::VPANEL parent );
 void MP3Player_Destroy();
+void OverrideGameUI();
 
 #include <vgui/IInputInternal.h>
 vgui::IInputInternal *g_InputInternal = NULL;
@@ -197,6 +203,7 @@ void VGui_CreateGlobalPanels( void )
 {
 	VPANEL gameToolParent = enginevgui->GetPanel( PANEL_CLIENTDLL_TOOLS );
 	VPANEL toolParent = enginevgui->GetPanel( PANEL_TOOLS );
+
 #if defined( TRACK_BLOCKING_IO )
 	VPANEL gameDLLPanel = enginevgui->GetPanel( PANEL_GAMEDLL );
 #endif
@@ -220,6 +227,11 @@ void VGui_CreateGlobalPanels( void )
 #ifdef SIXENSE
 	g_pSixenseInput->CreateGUI( gameToolParent );
 #endif
+
+#ifdef FLOP_DLL
+	OverrideUI->Create(NULL);
+	OverrideGameUI();
+#endif // FLOP_DLL
 }
 
 void VGui_Shutdown()
