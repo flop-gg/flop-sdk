@@ -1,71 +1,33 @@
-# Source SDK 2013
+# Flop
+![GitHub Tag](https://img.shields.io/github/v/tag/flop-gg/flop-sdk?label=version&color=green) ![GitHub commit activity (branch)](https://img.shields.io/github/commit-activity/m/flop-gg/flop-sdk/upcoming?label=commit%20activity%20(upcoming)&link=https%3A%2F%2Fgithub.com%2Fflop-gg%2Fflop-sdk%2Ftree%2Fupcoming) ![GitHub last commit](https://img.shields.io/github/last-commit/flop-gg/flop-sdk)
 
-Source code for Source SDK 2013.
+Flop est un jeu multijoueur basé sur le moteur [Source](https://developer.valvesoftware.com/wiki/Source), sous le [Source SDK 2013](https://developer.valvesoftware.com/wiki/Setting_up_Source_SDK_Base_2013_Multiplayer). Le jeu mélange des éléments Call of Duty, Counter-Strike, etc.
+Ce jeu est juste un petit projet entre moi et mes amis pour avoir quelque chose à jouer en privé, veuillez noter qu'il est donc possible que le code source devient privé à un moment ou l'autre pour cette raison.
+En attendant, au moins jusqu'à la dernière version beta, le jeu est ouvert. (Si vous êtes quelqu'un que je connais, je peux quand-même vous donner le code source).
 
-Contains the game code for Half-Life 2, HL2: DM and TF2.
+## Sommaire
+1. Construction du jeu
+2. Codes utilisés
+3. Licence
 
-**Now including Team Fortress 2! ✨**
+## Construction du jeu
+Pour construire le jeu, veuillez suivre les instructions de Valve [ici](https://github.com/valvesoftware/source-sdk-2013?tab=readme-ov-file#build-instructions). Veuillez noter que le code Linux n'est pas testé, compilez-donc à vous risques et périls.
 
-## Build instructions
+Des nouveaux scripts .bat sont fournis afin que ce soit plus facile pour programmer le jeu. Ces scripts sont:
+- `create_flop_basic.bat`
+  + Contient *uniquement* les .dll du jeu (`client.dll`, `server.dll`, etc)
+  + Créé plutôt pour une lisibilité plus facile sur Visual Studio.
+- `create_flop_full.bat`
+  + Contient les .dll du jeu (`client.dll`, `server.dll`, etc)
+  + Contient le launcher (`flop_win64.exe`).
+  + Créé pour faciliter l'automatisation GitHub Actions.
 
-Clone the repository using the following command:
+## Codes utilisés
+- https://developer.valvesoftware.com/wiki/Override_GameUI
+- https://developer.valvesoftware.com/wiki/Adding_an_HTML_Main_Menu
+- https://developer.valvesoftware.com/wiki/Hand_Viewmodels
 
-`git clone https://github.com/ValveSoftware/source-sdk-2013`
+Veuillez noter que j'ai également utilisé des intelligences artificelles comme [Claude](claude.ai) afin de m'aider à faire des recherches. Je suis encore en scolarité et je n'ai pas le temps pour regarder tout le code de ce moteur. J'essaye quand-même de ne pas faire du copier-coller de A à Z et de me renseigner sur le code donné, j'essaye néanmoins de faire la plupart du code par moi-même (pas de vibe coding).
 
-### Windows
-
-Requirements:
- - Source SDK 2013 Multiplayer installed via Steam
- - Visual Studio 2022 with the following workload and components:
-   - Desktop development with C++:
-     - MSVC v143 - VS 2022 C++ x64/x86 build tools (Latest)
-     - Windows 11 SDK (10.0.22621.0) or Windows 10 SDK (10.0.19041.1)
- - Python 3.13 or later
-
-Inside the cloned directory, navigate to `src`, run:
-```bat
-createallprojects.bat
-```
-This will generate the Visual Studio project `everything.sln` which will be used to build your mod.
-
-Then, on the menu bar, go to `Build > Build Solution`, and wait for everything to build.
-
-You can then select the `Client (Mod Name)` project you wish to run, right click and select `Set as Startup Project` and hit the big green `> Local Windows Debugger` button on the tool bar in order to launch your mod.
-
-The default launch options should be already filled in for the `Release` configuration.
-
-### Linux
-
-Requirements:
- - Source SDK 2013 Multiplayer installed via Steam
- - podman
-
-Inside the cloned directory, navigate to `src`, run:
-```bash
-./buildallprojects
-```
-
-This will build all the projects related to the SDK and your mods automatically against the Steam Runtime.
-
-You can then, in the root of the cloned directory, you can navigate to `game` and run your mod by launching the build launcher for your mod project, eg:
-```bash
-./mod_tf
-```
-
-*Mods that are distributed on Steam MUST be built against the Steam Runtime, which the above steps will automatically do for you.*
-
-## Distributing your Mod
-
-There is guidance on distributing your mod both on and off Steam available at the following link:
-
-https://partner.steamgames.com/doc/sdk/uploading/distributing_source_engine
-
-## Additional Resources
-
-- [Valve Developer Wiki](https://developer.valvesoftware.com/wiki/Source_SDK_2013)
-
-## License
-
-The SDK is licensed to users on a non-commercial basis under the [SOURCE 1 SDK LICENSE](LICENSE), which is contained in the [LICENSE](LICENSE) file in the root of the repository.
-
-For more information, see [Distributing your Mod](#markdown-header-distributing-your-mod).
+## Licence
+Le code du jeu est licencé sous la [SOURCE 1 SDK LICENSE](LICENSE), inclus sur tous les projets Source Engine. Si vous voulez prendre quelque chose de ce code, vous y êtes donc libre.
