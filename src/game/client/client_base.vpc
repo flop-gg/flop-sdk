@@ -178,7 +178,6 @@ $Project
 		
 	$Folder	"Source Files"
 	{
-		$File	"vgui\HTML.cpp"
 		$File	"hl2\C_Func_Monitor.cpp"
 		$File	"geiger.cpp"
 		$File	"history_resource.cpp"

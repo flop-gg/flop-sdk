@@ -68,10 +68,6 @@ $Project "Client (Flop)"
 			}
 			
 			$File	"$SRCDIR\game\shared\flop\handviewmodel_shared.cpp"
-			$File	"flop/IOverrideInterface.h"
-			$File	"flop/OverrideInterface.cpp"
-			$File	"flop/OverrideUI_RootPanel.cpp"
-			$File	"flop/OverrideUI_RootPanel.h"
 		}
 
 		$Folder	"HL2 DLL"

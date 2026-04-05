@@ -150,10 +150,6 @@
 
 #endif
 
-#ifdef FLOP_DLL
-#include "flop/IOverrideInterface.h"
-#include "flop/OverrideUI_RootPanel.h"
-#endif // FLOP_DLL
 
 extern vgui::IInputInternal *g_InputInternal;
 
@@ -224,9 +220,6 @@ IReplaySystem *g_pReplay = NULL;
 #endif
 
 IHaptics* haptics = NULL;// NVNT haptics system interface singleton
-#ifdef FLOP_DLL
-extern OverrideUI_RootPanel* guiroot;
-#endif // FLOP_DLL
 
 //=============================================================================
 // HPE_BEGIN
@@ -1240,11 +1233,6 @@ void CHLClient::Shutdown( void )
 	UncacheAllMaterials();
 
 	IGameSystem::ShutdownAllSystems();
-
-	if (guiroot)
-	{
-		guiroot->~OverrideUI_RootPanel();
-	}
 	
 	gHUD.Shutdown();
 	VGui_Shutdown();
@@ -1696,9 +1684,6 @@ void CHLClient::LevelInitPostEntity( )
 	IGameSystem::LevelInitPostEntityAllSystems();
 	C_PhysPropClientside::RecreateAll();
 	internalCenterPrint->Clear();
-
-	guiroot->m_pHTMLMenu->RunJavascript("togglevisible(true);");
-	guiroot->m_pHTMLMenu->RequestFocus();
 }
 
 //-----------------------------------------------------------------------------
@@ -1745,9 +1730,6 @@ void CHLClient::LevelShutdown( void )
 	// Remove temporary entities before removing entities from the client entity list so that the te_* may
 	// clean up before hand.
 	tempents->LevelShutdown();
-
-	guiroot->m_pHTMLMenu->RunJavascript("togglevisible(false);");
-	guiroot->m_pHTMLMenu->RequestFocus();
 
 	// Now release/delete the entities
 	cl_entitylist->Release();
