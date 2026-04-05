@@ -84,11 +84,17 @@
 
         button {
             border-radius: 0 !important;
+            cursor: default !important;
+        }
+
+        a {
+            cursor: default !important;
         }
 
         .square-corner-override {
             border-radius: 0 !important;
             font-family: "Share Tech" !important;
+            cursor: default !important;
         }
     </style>
 
@@ -172,6 +178,13 @@
                 type="password"
                 placeholder="Mot de passe"
                 />
+            </div>
+
+            <div class="field">
+                <label class="checkbox square-corner-override">
+                <input type="checkbox" class="square-corner-override" />
+                Partie LAN (Serveur local)
+                </label>
             </div>
 
             <button class="button is-medium" onclick="alert('action_servercreator')">Créer</button>
