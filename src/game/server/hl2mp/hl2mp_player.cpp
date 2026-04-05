@@ -239,43 +239,45 @@ void CHL2MP_Player::GiveAllItems( void )
 	
 }
 
-void CHL2MP_Player::GiveDefaultItems( void )
+#ifndef FLOP_DLL
+void CHL2MP_Player::GiveDefaultItems(void)
 {
 	EquipSuit();
 
-	CBasePlayer::GiveAmmo( 255,	"Pistol");
-	CBasePlayer::GiveAmmo( 45,	"SMG1");
-	CBasePlayer::GiveAmmo( 1,	"grenade" );
-	CBasePlayer::GiveAmmo( 6,	"Buckshot");
-	CBasePlayer::GiveAmmo( 6,	"357" );
+	CBasePlayer::GiveAmmo(255, "Pistol");
+	CBasePlayer::GiveAmmo(45, "SMG1");
+	CBasePlayer::GiveAmmo(1, "grenade");
+	CBasePlayer::GiveAmmo(6, "Buckshot");
+	CBasePlayer::GiveAmmo(6, "357");
 
-	if ( GetPlayerModelType() == PLAYER_SOUNDS_METROPOLICE || GetPlayerModelType() == PLAYER_SOUNDS_COMBINESOLDIER )
+	if (GetPlayerModelType() == PLAYER_SOUNDS_METROPOLICE || GetPlayerModelType() == PLAYER_SOUNDS_COMBINESOLDIER)
 	{
-		GiveNamedItem( "weapon_stunstick" );
+		GiveNamedItem("weapon_stunstick");
 	}
-	else if ( GetPlayerModelType() == PLAYER_SOUNDS_CITIZEN )
+	else if (GetPlayerModelType() == PLAYER_SOUNDS_CITIZEN)
 	{
-		GiveNamedItem( "weapon_crowbar" );
+		GiveNamedItem("weapon_crowbar");
 	}
-	
-	GiveNamedItem( "weapon_pistol" );
-	GiveNamedItem( "weapon_smg1" );
-	GiveNamedItem( "weapon_frag" );
-	GiveNamedItem( "weapon_physcannon" );
 
-	const char *szDefaultWeaponName = engine->GetClientConVarValue( engine->IndexOfEdict( edict() ), "cl_defaultweapon" );
+	GiveNamedItem("weapon_pistol");
+	GiveNamedItem("weapon_smg1");
+	GiveNamedItem("weapon_frag");
+	GiveNamedItem("weapon_physcannon");
 
-	CBaseCombatWeapon *pDefaultWeapon = Weapon_OwnsThisType( szDefaultWeaponName );
+	const char* szDefaultWeaponName = engine->GetClientConVarValue(engine->IndexOfEdict(edict()), "cl_defaultweapon");
 
-	if ( pDefaultWeapon )
+	CBaseCombatWeapon* pDefaultWeapon = Weapon_OwnsThisType(szDefaultWeaponName);
+
+	if (pDefaultWeapon)
 	{
-		Weapon_Switch( pDefaultWeapon );
+		Weapon_Switch(pDefaultWeapon);
 	}
 	else
 	{
-		Weapon_Switch( Weapon_OwnsThisType( "weapon_physcannon" ) );
+		Weapon_Switch(Weapon_OwnsThisType("weapon_physcannon"));
 	}
 }
+#endif // !FLOP_DLL
 
 void CHL2MP_Player::PickDefaultSpawnTeam( void )
 {
@@ -330,6 +332,7 @@ void CHL2MP_Player::PickDefaultSpawnTeam( void )
 //-----------------------------------------------------------------------------
 // Purpose: Sets HL2 specific defaults.
 //-----------------------------------------------------------------------------
+#ifndef FLOP_DLL
 void CHL2MP_Player::Spawn(void)
 {
 	m_flNextModelChangeTime = 0.0f;
@@ -338,35 +341,35 @@ void CHL2MP_Player::Spawn(void)
 	PickDefaultSpawnTeam();
 
 	BaseClass::Spawn();
-	
-	if ( !IsObserver() )
+
+	if (!IsObserver())
 	{
 		pl.deadflag = false;
-		RemoveSolidFlags( FSOLID_NOT_SOLID );
+		RemoveSolidFlags(FSOLID_NOT_SOLID);
 
-		RemoveEffects( EF_NODRAW );
-		
+		RemoveEffects(EF_NODRAW);
+
 		GiveDefaultItems();
 	}
 
-	SetNumAnimOverlays( 3 );
+	SetNumAnimOverlays(3);
 	ResetAnimation();
 
 	m_nRenderFX = kRenderNormal;
 
 	m_Local.m_iHideHUD = 0;
-	
+
 	AddFlag(FL_ONGROUND); // set the player on the ground at the start of the round.
 
 	m_impactEnergyScale = HL2MPPLAYER_PHYSDAMAGE_SCALE;
 
-	if ( HL2MPRules()->IsIntermission() )
+	if (HL2MPRules()->IsIntermission())
 	{
-		AddFlag( FL_FROZEN );
+		AddFlag(FL_FROZEN);
 	}
 	else
 	{
-		RemoveFlag( FL_FROZEN );
+		RemoveFlag(FL_FROZEN);
 	}
 
 	m_iSpawnInterpCounter = (m_iSpawnInterpCounter + 1) % 8;
@@ -377,6 +380,7 @@ void CHL2MP_Player::Spawn(void)
 
 	m_bReady = false;
 }
+#endif // !FLOP_DLL
 
 bool CHL2MP_Player::ValidatePlayerModel( const char *pModel )
 {

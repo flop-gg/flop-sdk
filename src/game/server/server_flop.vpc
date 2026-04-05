@@ -128,6 +128,36 @@ $Project "Server (Flop)"
 			}
 		}
 
+		$Folder	"Flop"
+		{
+			$Folder	"Weapons"
+			{
+				$File	"$SRCDIR\game\shared\flop\weapon_flopbase_machinegun.cpp"
+				$File	"$SRCDIR\game\shared\flop\weapon_flopbase_machinegun.h"
+				
+				$File	"$SRCDIR\game\shared\flop\weapon_ar_1.cpp"
+				$File	"$SRCDIR\game\shared\flop\weapon_ar_2.cpp"
+				$File	"$SRCDIR\game\shared\flop\weapon_ar_3.cpp"
+				
+				$File	"$SRCDIR\game\shared\flop\weapon_smg_1.cpp"
+				$File	"$SRCDIR\game\shared\flop\weapon_smg_2.cpp"
+				$File	"$SRCDIR\game\shared\flop\weapon_smg_3.cpp"
+				
+				$File	"$SRCDIR\game\shared\flop\weapon_pistol_1.cpp"
+				$File	"$SRCDIR\game\shared\flop\weapon_pistol_2.cpp"
+				$File	"$SRCDIR\game\shared\flop\weapon_pistol_3.cpp"
+				
+				$File	"$SRCDIR\game\shared\flop\weapon_shotgun_1.cpp"
+				$File	"$SRCDIR\game\shared\flop\weapon_shotgun_2.cpp"
+				
+				$File	"$SRCDIR\game\shared\flop\weapon_sniper_1.cpp"
+				$File	"$SRCDIR\game\shared\flop\weapon_sniper_2.cpp"
+			}
+			
+			$File	"flop\hl2mp_player_override.cpp"
+			$File	"$SRCDIR\game\shared\flop\handviewmodel_shared.cpp"
+		}
+
 		$Folder	"HL2 DLL"
 		{
 			$File	"hl2\ai_allymanager.cpp"

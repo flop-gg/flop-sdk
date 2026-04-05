@@ -264,6 +264,10 @@ public:
 	static CBasePlayer		*CreatePlayer( const char *className, edict_t *ed );
 
 	virtual void			CreateViewModel( int viewmodelindex = 0 );
+#ifdef FLOP_DLL
+	virtual void	        CreateHandModel(int viewmodelindex = 1, int iOtherVm = 0);
+#endif // FLOP_DLL
+
 	CBaseViewModel			*GetViewModel( int viewmodelindex = 0, bool bObserverOK = true );
 	void					HideViewModels( void );
 	void					DestroyViewModels( void );

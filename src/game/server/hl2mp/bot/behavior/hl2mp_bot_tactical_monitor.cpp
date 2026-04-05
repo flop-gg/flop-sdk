@@ -4,7 +4,9 @@
 #include "fmtstr.h"
 
 #include "hl2mp_gamerules.h"
+#ifndef FLOP_DLL
 #include "hl2mp/weapon_slam.h"
+#endif
 #include "NextBot/NavMeshEntities/func_nav_prerequisite.h"
 
 #include "bot/hl2mp_bot.h"
@@ -76,46 +78,47 @@ void CHL2MPBotTacticalMonitor::MonitorArmedStickyBombs( CHL2MPBot *me )
 	{
 		m_stickyBombCheckTimer.Start( RandomFloat( 0.3f, 1.0f ) );
 
+#ifndef FLOP_DLL
 		// are there any enemies on/near my sticky bombs?
-		CWeapon_SLAM *slam = dynamic_cast< CWeapon_SLAM* >( me->Weapon_OwnsThisType( "weapon_slam" ) );
-		if ( slam )
+		CWeapon_SLAM* slam = dynamic_cast<CWeapon_SLAM*>(me->Weapon_OwnsThisType("weapon_slam"));
+		if (slam)
 		{
-			const CUtlVector< CBaseEntity* > &satchelVector = slam->GetSatchelVector();
+			const CUtlVector< CBaseEntity* >& satchelVector = slam->GetSatchelVector();
 
-			if ( satchelVector.Count() > 0 )
+			if (satchelVector.Count() > 0)
 			{
 				CUtlVector< CKnownEntity > knownVector;
-				me->GetVisionInterface()->CollectKnownEntities( &knownVector );
+				me->GetVisionInterface()->CollectKnownEntities(&knownVector);
 
-				for( int p=0; p< satchelVector.Count(); ++p )
+				for (int p = 0; p < satchelVector.Count(); ++p)
 				{
-					CBaseEntity *satchel = satchelVector[p];
-					if ( !satchel )
+					CBaseEntity* satchel = satchelVector[p];
+					if (!satchel)
 					{
 						continue;
 					}
 
-					for( int k=0; k<knownVector.Count(); ++k )
+					for (int k = 0; k < knownVector.Count(); ++k)
 					{
-						if ( knownVector[k].IsObsolete() )
+						if (knownVector[k].IsObsolete())
 						{
 							continue;
 						}
 
-						if ( knownVector[k].GetEntity()->IsBaseObject() )
+						if (knownVector[k].GetEntity()->IsBaseObject())
 						{
 							// we want to put several stickies on a sentry and det at once
 							continue;
 						}
 
-						if ( satchel->GetTeamNumber() != GetEnemyTeam( knownVector[k].GetEntity()->GetTeamNumber() ) )
+						if (satchel->GetTeamNumber() != GetEnemyTeam(knownVector[k].GetEntity()->GetTeamNumber()))
 						{
 							// "known" is either a spectator, or on our team
 							continue;
 						}
 
 						const float closeRange = 150.0f;
-						if ( ( knownVector[k].GetLastKnownPosition() - satchel->GetAbsOrigin() ).IsLengthLessThan( closeRange ) )
+						if ((knownVector[k].GetLastKnownPosition() - satchel->GetAbsOrigin()).IsLengthLessThan(closeRange))
 						{
 							// they are close - blow it!
 							me->PressFireButton();
@@ -125,6 +128,7 @@ void CHL2MPBotTacticalMonitor::MonitorArmedStickyBombs( CHL2MPBot *me )
 				}
 			}
 		}
+#endif // !FLOP_DLL
 	}
 }
 
