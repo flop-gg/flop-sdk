@@ -43,7 +43,7 @@ Scheme
 		Border.Selection				"0 0 0 196"			// the additional border color for displaying the default/selected button
 
 		Button.TextColor				"DullWhite"
-		Button.BgColor					"20 22 26 255"
+		Button.BgColor					"31 34 41 255"
 		Button.ArmedTextColor			"White"
 		Button.ArmedBgColor				"31 34 41 255"
 		Button.DepressedTextColor		"White"
@@ -265,9 +265,9 @@ Scheme
 		{
 			"1"
 			{
-				"name"		"GorDIN"
-				"tall"		"17"
-				"weight"	"400"
+				"name"		"Verdana"
+				"tall"		"15"
+				//"weight"	"400"
 				"antialias" "1"
 			}
 		}
@@ -275,9 +275,9 @@ Scheme
 		{
 			"1"
 			{
-				"name"		"GorDIN"
-				"tall"		"16"
-				"weight"	"1000"
+				"name"		"Verdana"
+				"tall"		"14"
+				"weight"	"800"
 				"antialias" "1"
 			}
 		}
@@ -285,9 +285,9 @@ Scheme
 		{
 			"1"
 			{
-				"name"		"GorDIN"
-				"tall"		"16"
-				"weight"	"400"
+				"name"		"Verdana"
+				"tall"		"14"
+				//"weight"	"400"
 				"underline" "1"
 				"antialias" "1"
 			}
@@ -296,8 +296,8 @@ Scheme
 		{
 			"1"
 			{
-				"name"		"GorDIN"
-				"tall"		"14"
+				"name"		"Verdana"
+				"tall"		"12"
 				"weight"	"0"
 			}
 		}
@@ -305,8 +305,8 @@ Scheme
 		{
 			"1"
 			{
-				"name"		"GorDIN"
-				"tall"		"14"
+				"name"		"Verdana"
+				"tall"		"12"
 				"weight"	"0"
 				"dropshadow" "1"
 			}
@@ -315,7 +315,7 @@ Scheme
 		{
 			"1"
 			{
-				"name"		"GorDIN"
+				"name"		"Verdana"
 				"tall"		"12"
 				"weight"	"0"
 				"antialias" "1"
@@ -326,7 +326,7 @@ Scheme
 		{
 			"1"
 			{
-				"name"		"GorDIN"
+				"name"		"Verdana"
 				"tall"		"18"
 				"weight"	"0"
 				"antialias" "1"
@@ -336,8 +336,8 @@ Scheme
 		{
 			"1"
 			{
-				"name"		"GorDIN"
-				"tall"		"13" // Increased from 12.
+				"name"		"Verdana"
+				"tall"		"12" // Increased from 12.
 				"weight"	"700"
 				"antialias" "1"
 			}
@@ -346,8 +346,8 @@ Scheme
 		{
 			"1"
 			{
-				"name"		"GorDIN"
-				"tall"		"13" // Increased from 12.
+				"name"		"Verdana"
+				"tall"		"12" // Increased from 12.
 				"weight"	"700"
 				"antialias" "1"
 			}
@@ -356,8 +356,8 @@ Scheme
 		{
 			"1"
 			{
-				"name"		"GorDIN"
-				"tall"		"15" // Increased from 12.
+				"name"		"Verdana"
+				"tall"		"12" // Increased from 12.
 				"weight"	"700"
 				"antialias" "1"
 			}
@@ -366,7 +366,7 @@ Scheme
 		{
 			"1" // Proportional
 			{
-				"name"		"GorDIN"
+				"name"		"Verdana"
 				"tall"		"12"
 				"weight"	"600"
 				"antialias" "1"
@@ -398,7 +398,7 @@ Scheme
 			{
 				"name"		"GorDIN"
 				"tall"		"17"
-				"weight"	"700"
+				//"weight"	"700"
 				"antialias" "1"
 			}
 		}
@@ -1397,5 +1397,7 @@ Scheme
 		"13"	"resource/GorDIN-Semibold.ttf"
 		"14"	"resource/GorDIN-Black.ttf"
 		"15"	"resource/GorDIN-Light.ttf"
+
+		"16"	"resource/ShareTech-Regular.ttf"
 	}
 }
