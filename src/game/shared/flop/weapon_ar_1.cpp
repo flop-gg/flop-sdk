@@ -130,16 +130,7 @@ void CWeaponAR_1::Equip( CBaseCombatCharacter *pOwner )
 //-----------------------------------------------------------------------------
 Activity CWeaponAR_1::GetPrimaryAttackActivity( void )
 {
-	if ( m_nShotsFired < 2 )
-		return ACT_VM_PRIMARYATTACK;
-
-	if ( m_nShotsFired < 3 )
-		return ACT_VM_RECOIL1;
-	
-	if ( m_nShotsFired < 4 )
-		return ACT_VM_RECOIL2;
-
-	return ACT_VM_RECOIL3;
+	return ACT_VM_PRIMARYATTACK;
 }
 
 //-----------------------------------------------------------------------------
