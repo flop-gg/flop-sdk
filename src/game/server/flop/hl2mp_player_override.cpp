@@ -48,7 +48,7 @@ void CHL2MP_Player::Spawn(void)
 		RemoveFlag(FL_FROZEN);
 	}
 
-	GetViewModel(1)->SetModel("models/weapons/v_hands.mdl");
+	GetViewModel(1)->SetModel("models/weapons/c_arms_fas2_red_2.mdl");
 
 	m_iSpawnInterpCounter = (m_iSpawnInterpCounter + 1) % 8;
 
