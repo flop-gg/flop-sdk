@@ -144,7 +144,7 @@ void ClientGamePrecache( void )
 	CBaseEntity::PrecacheModel ("models/weapons/v_hands.mdl");
 
 #ifdef FLOP_DLL
-	CBaseEntity::PrecacheModel("models/weapons/c_arms_fas2_red_2.mdl");
+	CBaseEntity::PrecacheModel("models/weapons/c_arms_fas2_blue_3.mdl");
 #endif // FLOP_DLL
 
 	CBaseEntity::PrecacheScriptSound( "HUDQuickInfo.LowAmmo" );

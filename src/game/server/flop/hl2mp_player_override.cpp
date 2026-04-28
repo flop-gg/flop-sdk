@@ -48,7 +48,7 @@ void CHL2MP_Player::Spawn(void)
 		RemoveFlag(FL_FROZEN);
 	}
 
-	GetViewModel(1)->SetModel("models/weapons/c_arms_fas2_red_2.mdl");
+	GetViewModel(1)->SetModel("models/weapons/c_arms_fas2_blue_3.mdl");
 
 	m_iSpawnInterpCounter = (m_iSpawnInterpCounter + 1) % 8;
 
@@ -69,7 +69,7 @@ void CHL2MP_Player::GiveDefaultItems(void)
 	CBasePlayer::GiveAmmo(120, "Pistol");
 
 	GiveNamedItem("weapon_crowbar");
-	GiveNamedItem("weapon_pistol_1");
+	GiveNamedItem("weapon_pistol_2");
 	GiveNamedItem("weapon_ar_1");
 
 	const char* szDefaultWeaponName = engine->GetClientConVarValue(engine->IndexOfEdict(edict()), "cl_defaultweapon");

@@ -21,13 +21,6 @@
 IMPLEMENT_NETWORKCLASS_ALIASED( FlopMachineGun, DT_FlopMachineGun )
 
 BEGIN_NETWORK_TABLE( CFlopMachineGun, DT_FlopMachineGun )
-	#ifdef CLIENT_DLL
-		RecvPropInt(RECVINFO(m_iBurst)),
-		RecvPropInt(RECVINFO(m_iBurstVal)),
-	#else
-		SendPropInt(SENDINFO(m_iBurst)),
-		SendPropInt(SENDINFO(m_iBurstVal)),
-	#endif
 END_NETWORK_TABLE()
 
 BEGIN_PREDICTION_DATA( CFlopMachineGun )
@@ -52,8 +45,6 @@ END_DATADESC()
 //-----------------------------------------------------------------------------
 CFlopMachineGun::CFlopMachineGun( void )
 {
-	m_iBurstVal = 500;
-	m_iBurst = m_iBurstVal;
 }
 
 const Vector &CFlopMachineGun::GetBulletSpread( void )
@@ -69,7 +60,6 @@ const Vector &CFlopMachineGun::GetBulletSpread( void )
 //-----------------------------------------------------------------------------
 void CFlopMachineGun::PrimaryAttack( void )
 {
-	if (m_iBurst > 0) {
 		// Only the player fires this way so we can cast
 		CBasePlayer* pPlayer = ToBasePlayer(GetOwner());
 		if (!pPlayer)
@@ -82,6 +72,9 @@ void CFlopMachineGun::PrimaryAttack( void )
 		m_nShotsFired++;
 
 		pPlayer->DoMuzzleFlash();
+
+		SendWeaponAnim(GetPrimaryAttackActivity());
+		pPlayer->SetAnimation(PLAYER_ATTACK1);
 
 		// To make the firing framerate independent, we may have to fire more than one bullet here on low-framerate systems, 
 		// especially if the weapon we're firing has a really fast rate of fire.
@@ -126,12 +119,6 @@ void CFlopMachineGun::PrimaryAttack( void )
 			// HEV suit - indicate out of ammo condition
 			pPlayer->SetSuitUpdate("!HEV_AMO0", FALSE, 0);
 		}
-
-		m_iBurst--;
-
-		SendWeaponAnim(GetPrimaryAttackActivity());
-		pPlayer->SetAnimation(PLAYER_ATTACK1);
-	}
 }
 
 //-----------------------------------------------------------------------------
@@ -190,7 +177,6 @@ void CFlopMachineGun::DoMachineGunKick( CBasePlayer* pPlayer, float maxVerticleK
 bool CFlopMachineGun::Deploy( void )
 {
 	m_nShotsFired = 0;
-	m_iBurst = m_iBurstVal;
 
 	return BaseClass::Deploy();
 }
@@ -243,7 +229,6 @@ void CFlopMachineGun::ItemPostFrame( void )
 	if ( ( pOwner->m_nButtons & IN_ATTACK ) == false )
 	{
 		m_nShotsFired = 0;
-		m_iBurst = m_iBurstVal;
 	}
 
 	BaseClass::ItemPostFrame();

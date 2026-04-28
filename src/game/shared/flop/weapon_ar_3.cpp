@@ -104,7 +104,6 @@ CWeaponAR_3::CWeaponAR_3( )
 {
 	m_fMinRange1		= 0;// No minimum range. 
 	m_fMaxRange1		= 1400;
-	m_iBurstVal			= 3;
 }
 
 //-----------------------------------------------------------------------------
@@ -131,16 +130,7 @@ void CWeaponAR_3::Equip( CBaseCombatCharacter *pOwner )
 //-----------------------------------------------------------------------------
 Activity CWeaponAR_3::GetPrimaryAttackActivity( void )
 {
-	if ( m_nShotsFired < 2 )
-		return ACT_VM_PRIMARYATTACK;
-
-	if ( m_nShotsFired < 3 )
-		return ACT_VM_RECOIL1;
-	
-	if ( m_nShotsFired < 4 )
-		return ACT_VM_RECOIL2;
-
-	return ACT_VM_RECOIL3;
+	return ACT_VM_PRIMARYATTACK;
 }
 
 //-----------------------------------------------------------------------------

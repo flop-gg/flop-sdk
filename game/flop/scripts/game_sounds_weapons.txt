@@ -1565,3 +1565,29 @@
 	"soundlevel"  	"SNDLVL_70dB"
 	"wave"	"weapons/tripwire/mine_activate.wav"
 }
+
+"Weapon_Beretta.Single"
+{
+	"channel"	"CHAN_WEAPON"
+	"volume"	"0.8"
+	"soundlevel"	"SNDLVL_GUNFIRE"
+	"pitch"			"90,100"	
+
+	"rndwave"
+	{
+		"wave"			")weapons/pis_beretta_fire.wav"
+	}
+}
+
+"Weapon_AK47.Single"
+{
+	"channel"	"CHAN_WEAPON"
+	"volume"	"0.8"
+	"soundlevel"	"SNDLVL_GUNFIRE"
+	"pitch"			"90,100"	
+
+	"rndwave"
+	{
+		"wave"			")weapons/rif_ak47_fire.wav"
+	}
+}

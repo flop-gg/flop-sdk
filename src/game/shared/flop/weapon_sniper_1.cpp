@@ -104,7 +104,7 @@ CWeaponSniper_1::CWeaponSniper_1( )
 {
 	m_fMinRange1		= 0;// No minimum range. 
 	m_fMaxRange1		= 1400;
-	m_iBurstVal = 1;
+	//m_iBurstVal = 1;
 }
 
 //-----------------------------------------------------------------------------

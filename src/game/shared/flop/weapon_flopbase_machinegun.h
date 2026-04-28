@@ -56,9 +56,6 @@ protected:
 	int	m_nShotsFired;	// Number of consecutive shots fired
 
 	float	m_flNextSoundTime;	// real-time clock of when to make next sound
-
-	CNetworkVar(int, m_iBurst);
-	CNetworkVar(int, m_iBurstVal);
 };
 
 #endif // BASEFLCOMBATWEAPON_H

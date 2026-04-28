@@ -4,11 +4,11 @@ WeaponData
 {
 	// Weapon data is loaded by both the Game and Client DLLs.
 	"printname"	"Pistol 1"
-	"viewmodel"			"models/weapons/v_pistol.mdl"
-	"playermodel"		"models/weapons/w_pistol.mdl"
+	"viewmodel"			"models/weapons/v_pis_beretta.mdl"
+	"playermodel"		"models/weapons/w_pis_beretta.mdl"
 	"anim_prefix"		"pistol"
 	"bucket"			"1"
-	"bucket_position"	"0"
+	"bucket_position"	"1"
 
 	"clip_size"			"12"
 	"primary_ammo"		"Pistol"
@@ -25,7 +25,7 @@ WeaponData
 		"reload"		"Weapon_Pistol.Reload"
 		"reload_npc"	"Weapon_Pistol.NPC_Reload"
 		"empty"			"Weapon_Pistol.Empty"
-		"single_shot"	"Weapon_Pistol.Single"
+		"single_shot"	"Weapon_Beretta.Single"
 		"single_shot_npc"	"Weapon_Pistol.NPC_Single"
 		"special1"		"Weapon_Pistol.Special1"
 		"special2"		"Weapon_Pistol.Special2"
