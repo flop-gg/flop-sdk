@@ -24,6 +24,7 @@
 
         :root {
             --navbar-height: 72px;
+            --tab-title-height: 72px;
         }
 
         body {
@@ -71,8 +72,72 @@
             left: -100%;
         }
 
+        /* ==========SHOP STUFF========== */
         #shop-view {
             left: -100%;
+            display: grid;
+            grid-template-areas: 
+                "title"
+                "items"
+                "footer";
+        }
+        
+        .shop-header {
+            width: 100%;
+            display: grid;
+            align-items: start;
+            justify-items: center;
+
+            text-shadow: rgb(204, 204, 204) 0px 0px 4px;
+        }
+
+        .shop-grid {
+            display: grid;
+            width: 100%;
+            grid-area: items;
+
+            grid-template-columns: repeat(4, 270px);
+            gap: 16px;
+            justify-content: center;
+            align-content: center;
+        }
+
+        .shop-footer {
+            display: grid;
+            width: 100%;
+            grid-area: footer;
+
+            align-items: end;
+            justify-items: center;
+
+            color: whitesmoke !important;
+
+            text-shadow: rgb(204, 204, 204) 0px 0px 1px;
+        }
+
+        .shop-card {
+            width: 270px;
+            height: 420px;
+            background-color: #14161A !important;
+            border-color: #353A46 !important;
+            border-width: 1px;
+            border-style: solid;
+            transition: 0.25s;
+        }
+
+        .shop-card:hover {
+            background-color: #24272e !important;
+        }
+
+        .shop-card:focus {
+            background-color: #0c0d0f !important;
+        }
+
+        .shop-card-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            pointer-events: none !important;
         }
 
         #pass-view {
@@ -242,7 +307,20 @@
 
     <!-- Boutique -->
     <div class="basic-view" id="shop-view">
-        <h1>Shop</h1>
+        <div class="shop-header">
+            <br>
+            <h1 class="title is-2">Boutique de la semaine</h1>
+        </div>
+        <div class="shop-grid">
+            <div class="shop-card"></div>
+            <div class="shop-card"></div>
+            <div class="shop-card"></div>
+            <div class="shop-card"></div>
+        </div>
+        <div class="shop-footer">
+            <p>La boutique reset de temps en temps pour avoir une variété de skins.</p>
+            <br>
+        </div>
     </div>
 
     <!-- Pass -->
