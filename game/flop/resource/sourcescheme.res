@@ -1397,7 +1397,5 @@ Scheme
 		"13"	"resource/GorDIN-Semibold.ttf"
 		"14"	"resource/GorDIN-Black.ttf"
 		"15"	"resource/GorDIN-Light.ttf"
-
-		"16"	"resource/ShareTech-Regular.ttf"
 	}
 }
