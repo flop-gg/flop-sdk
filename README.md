@@ -1,4 +1,7 @@
 # Flop
+
+### Pour regarder les mises à jour les plus récentes, veuillez regarder la branche [upcoming](https%3A%2F%2Fgithub.com%2Fflop-gg%2Fflop-sdk%2Ftree%2Fupcoming).
+
 ![GitHub Tag](https://img.shields.io/github/v/tag/flop-gg/flop-sdk?label=version&color=green) ![GitHub commit activity (branch)](https://img.shields.io/github/commit-activity/m/flop-gg/flop-sdk/upcoming?label=commit%20activity%20(upcoming)&link=https%3A%2F%2Fgithub.com%2Fflop-gg%2Fflop-sdk%2Ftree%2Fupcoming) ![GitHub last commit](https://img.shields.io/github/last-commit/flop-gg/flop-sdk)
 
 Flop est un jeu multijoueur basé sur le moteur [Source](https://developer.valvesoftware.com/wiki/Source), sous le [Source SDK 2013](https://developer.valvesoftware.com/wiki/Setting_up_Source_SDK_Base_2013_Multiplayer). Le jeu mélange des éléments Call of Duty, Counter-Strike, etc.
