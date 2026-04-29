@@ -56,6 +56,30 @@
             text-shadow: rgb(128, 128, 128) 0px 0px 3px;
         }
 
+        .basic-view {
+            width: 100%;
+            height: calc(100vh - var(--navbar-height));
+            top: var(--navbar-height);
+            position: absolute;
+        }
+
+        #home-view {
+            left: 0;
+        }
+
+        #locker-view {
+            left: -100%;
+        }
+
+        #shop-view {
+            left: -100%;
+        }
+
+        #pass-view {
+            left: -100%;
+        }
+
+        /*  this is only for reference, unused:
         .split-sv-view {
             width: 100%;
             height: calc(100vh - var(--navbar-height));
@@ -81,6 +105,7 @@
 
             overflow-y: auto;
         }
+        */
 
         button {
             border-radius: 0 !important;
@@ -96,7 +121,47 @@
             font-family: "Share Tech" !important;
             cursor: default !important;
         }
+
+        .sidebar {
+            height: 100%;
+            width: 280px;
+            position: absolute;
+            z-index: 68;
+            top: 0;
+            left: -280px;
+            background-color: #101212;
+            overflow-x: hidden;
+            transition: 0.25s;
+        }
+
+        #sidebarbg {
+            background-color: rgba(0, 0, 0, 0.65);
+            width: 0;
+            height: 100vh;
+            position: absolute;
+            z-index: 67;
+        }
+
+        .sidebar-btn {
+            width: 75%;
+            margin-bottom: 8px;
+        }
+
+        .ui-tooltip {
+            background-color: #14161Ac9 !important;
+            color: white !important;
+            transition: 0 !important;
+            border-radius: 0 !important;
+            pointer-events: none !important;
+            border-color: #353A46 !important;
+            box-shadow: none !important;
+        }
     </style>
+
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.2/themes/base/jquery-ui.css">
+
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://code.jquery.com/ui/1.14.2/jquery-ui.js"></script>
 
     <script>
         function quit_game() {
@@ -104,26 +169,31 @@
                 alert("action_quit");
             }
         }
+
+        $( function() {
+            $( document ).tooltip();
+        } );
     </script>
 </head>
 <body>
-<!--
-    <nav class="fl-topbar">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                <img alt="Brand" src="htm/fl_logo.png" height="40px">
+    <div id="sidebarbg" onclick="closeNav()">
+        <div id="mySidebar" class="sidebar">
+            <div style="text-align: center;">
+                <br>
+                <h1 class="title">MULTIJOUEUR</h1>
+                <button class="button is-medium sidebar-btn" onclick="alert('action_serverbrowser')" title="Rejoins un serveur hébergé par un autre joueur">Rejoindre un serveur</button>
+                <br>
+                <button class="button is-medium sidebar-btn" onclick="alert('action_servercreator')" title="Crée un serveur, hébergé gratuitement grâce à Steam Networking">Créer un serveur</button>
 
-                <center>
-                <button class="fl-topbar-button">CASIER</button>
-                <button class="fl-topbar-button">BOUTIQUE</button>
-                <button class="fl-topbar-button fl-topbar-button-main">JOUER</button>
-                <button class="fl-topbar-button" onclick="alert('action_settings')">OPTIONS</button>
-                <button class="fl-topbar-button" onclick="alert('action_quit')">QUITTER</button>
-                </center>
-                </div>
+                <hr>
+
+                <h1 class="title">SOLO</h1>
+                <button class="button is-medium sidebar-btn" onclick="alert('action_training')" title="Apprends à jouer au jeu. Conseillé pour les débutants">Tutoriel</button>
+                <br>
+                <button class="button is-medium sidebar-btn" onclick="alert('action_firerange')" title="Entraîne ton aim et teste les armes que tu veux">Stand de tir</button>
             </div>
-    </nav>
--->
+        </div>
+    </div>
 
     <nav class="navbar" role="navigation" aria-label="main navigation">
         <div class="navbar-menu c-navbar">
@@ -135,11 +205,11 @@
             class="navbar-start"
             style="flex-grow: 1; justify-content: center;"
             >
-                <a class="navbar-item c-nav-item">ACCUEIL</a>
-                <a class="navbar-item c-nav-item">COLLECTION</a>
-                <a class="navbar-item c-nav-main">JOUER</a>
-                <a class="navbar-item c-nav-item">BOUTIQUE</a>
-                <a class="navbar-item c-nav-item">FLOP PASS</a>
+                <a class="navbar-item c-nav-item" onclick="home()">ACCUEIL</a>
+                <a class="navbar-item c-nav-item" onclick="locker()">COLLECTION</a>
+                <a class="navbar-item c-nav-main" onclick="openNav()">JOUER</a>
+                <a class="navbar-item c-nav-item" onclick="shop()">BOUTIQUE</a>
+                <a class="navbar-item c-nav-item" onclick="pass()">FLOP PASS</a>
                 </div>
 
                 <div
@@ -160,48 +230,66 @@
         </div>
     </nav>
 
-    <div class="split-sv-view">
-        <div class="split-create-view container is-fluid">
-            <h1 class="title is-2" style="font-weight: 400 !important;">Créer un serveur</h1>
-
-            <div class="field">
-                <input
-                class="input is-normal square-corner-override"
-                type="text"
-                placeholder="Nom du serveur"
-                />
-            </div>
-
-            <div class="field">
-                <input
-                class="input is-normal square-corner-override"
-                type="password"
-                placeholder="Mot de passe"
-                />
-            </div>
-
-            <div class="field">
-                <label class="checkbox square-corner-override">
-                <input type="checkbox" class="square-corner-override" />
-                Partie LAN (Serveur local)
-                </label>
-            </div>
-
-            <button class="button is-medium" onclick="alert('action_servercreator')">Créer</button>
-        </div>
-
-        <div class="split-browser-view container is-fluid">
-            <h1 class="title is-2" style="font-weight: 400 !important;">Chercher un serveur</h1>
-            
-            <div style="width: 100%; text-align: center;">
-                <button class="button is-medium" onclick="alert('action_serverbrowser')">Liste des serveurs</button>
-            </div>
-
-            <p style="text-align: center;">
-                Les serveurs sur Flop sont hébergés par Valve grâce au système Steam Networking.
-                <a>En savoir plus</a>
-            </p>
-        </div>
+    <!-- Accueil -->
+    <div class="basic-view" id="home-view">
+        <h1>Home</h1>
     </div>
+
+    <!-- Collection -->
+    <div class="basic-view" id="locker-view">
+        <h1>Collection</h1>
+    </div>
+
+    <!-- Boutique -->
+    <div class="basic-view" id="shop-view">
+        <h1>Shop</h1>
+    </div>
+
+    <!-- Pass -->
+    <div class="basic-view" id="pass-view">
+        <h1>Pass</h1>
+    </div>
+
+    <script>
+        /* Set the width of the sidebar to 250px and the left margin of the page content to 250px */
+        function openNav() {
+        document.getElementById("mySidebar").style.left = "0";
+        document.getElementById("sidebarbg").style.width = "100vw";
+        }
+
+        /* Set the width of the sidebar to 0 and the left margin of the page content to 0 */
+        function closeNav() {
+        document.getElementById("mySidebar").style.left = "-280px";
+        document.getElementById("sidebarbg").style.width = "0";
+        } 
+
+        function home() {
+            document.getElementById("home-view").style.left = "0";
+            document.getElementById("locker-view").style.left = "-100%";
+            document.getElementById("shop-view").style.left = "-100%";
+            document.getElementById("pass-view").style.left = "-100%";
+        }
+
+        function locker() {
+            document.getElementById("home-view").style.left = "-100%";
+            document.getElementById("locker-view").style.left = "0";
+            document.getElementById("shop-view").style.left = "-100%";
+            document.getElementById("pass-view").style.left = "-100%";
+        }
+
+        function shop() {
+            document.getElementById("home-view").style.left = "-100%";
+            document.getElementById("locker-view").style.left = "-100%";
+            document.getElementById("shop-view").style.left = "0";
+            document.getElementById("pass-view").style.left = "-100%";
+        }
+
+        function pass() {
+            document.getElementById("home-view").style.left = "-100%";
+            document.getElementById("locker-view").style.left = "-100%";
+            document.getElementById("shop-view").style.left = "-100%";
+            document.getElementById("pass-view").style.left = "0";
+        }
+    </script>
 </body>
 </html>
